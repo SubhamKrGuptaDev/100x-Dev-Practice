@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stop Watch</title>
+  </head>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .counter {
+      display: flex;
+      gap: 10px;
+    }
+    .btn {
+      padding: 5px 15px;
+      cursor: pointer;
+    }
+    .watch {
+      display: flex;
+      gap: 2px;
+    }
+  </style>
+  <body>
+    <h1>Stop Watch with JS</h1>
+    <div class="counter">
+      <h3>Value :</h3>
+      <div class="watch">
+        <h3 id="hours" class="watch-counter">00</h3>
+        <h3 class="watch-counter">:</h3>
+        <h3 id="mins" class="watch-counter">00</h3>
+        <h3 class="watch-counter">:</h3>
+        <h3 id="seconds" class="watch-counter">00</h3>
+      </div>
+    </div>
+    <div class="btn-section">
+      <button
+        onclick="startButton()"
+        class="btn btn-start"
+        style="background-color: red"
+      >
+        Start
+      </button>
+      <button
+        onclick="endButton()"
+        class="btn btn-end"
+        style="background-color: bisque"
+      >
+        End
+      </button>
+      <button
+        onclick="resetButton()"
+        class="btn btn-reset"
+        style="background-color: brown; color: aliceblue"
+      >
+        Reset
+      </button>
+    </div>
+
+    <script>
+      let intervalId = null;
+      let secondsHtml = document.getElementById("seconds");
+      let minsHtml = document.getElementById("mins");
+      let hoursHtml = document.getElementById("hours");
+
+      function startButton() {
+        console.log("startButton");
+        intervalId = setInterval(() => {
+          let secondValue = secondsHtml.innerHTML;
+          let minValue = minsHtml.innerHTML;
+          let hourValue = hoursHtml.innerHTML;
+
+          let seconds = Number.parseInt(secondValue) + 1;
+          let mins = Number.parseInt(minValue) + Number.parseInt(seconds / 60);
+          let hours = Number.parseInt(hourValue) + Number.parseInt(mins / 60);
+
+          // Set Watch Values
+          setValues(seconds, secondsHtml);
+          if (mins > 0) {
+            setValues(mins, minsHtml);
+          }
+          if (hours > 0) {
+            setValues(hours, hoursHtml);
+          }
+        }, 1000);
+      }
+
+      function setValues(value, opHtml) {
+        let setValue = value % 60;
+        if (setValue < 10) {
+          setValue = "0" + setValue;
+        }
+        opHtml.innerHTML = setValue;
+        console.log(opHtml);
+      }
+
+      function endButton() {
+        console.log("endButton");
+        if (intervalId != null) {
+          clearInterval(intervalId);
+          intervalId = null;
+        }
+      }
+
+      function resetButton() {
+        console.log("resetButton");
+        if (intervalId != null) {
+          clearInterval(intervalId);
+          intervalId = null;
+        }
+        secondsHtml.innerHTML = "00";
+        minsHtml.innerHTML = "00";
+        hoursHtml.innerHTML = "00";
+      }
+    </script>
+  </body>
+</html>
